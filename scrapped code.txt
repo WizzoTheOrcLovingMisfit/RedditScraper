@@ -1,0 +1,49 @@
+
+----------------------------------------------------------------------------------------------------
+Scrapped due to using sockets and going up one layer of abstraction
+----------------------------------------------------------------------------------------------------
+url='http://old.reddit.com/r/sysadmin+itdept+itcareerquestions+devops+linux+windows+windowsserver+programmerhumor+homelab+techsupportgore+techsupportmacgyver+pcmasterrace+netsec+AskNetsec+netsecstudents+linux+linuxmasterrace+redhat+cisco+pfsense+pihole+proxmox+homelabsales+raspberrypi+python+ruby+java+html+javascript+battlestations+mechanicalkeyboards'
+port=80
+scraper = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+scraper.connect((url, port))
+
+
+
+
+request = "GET / HTTP/1.1\r\nHost:%s\r\n\r\n" % url
+
+
+
+
+scraper.send(request.encode())
+
+
+received=""
+
+while 1:
+    received=scraper.recv(4096)
+    if "301 Moved Permanently" in str(received):
+        
+        scraper.detach()
+        error_301=""
+        print(received)
+        print("301 bro")
+        url_error_301=re.findall("https?:\/\/.+?(?=\/)", str(received))
+        print(url_error_301)
+        
+       
+        scraper = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        scraper.connect(url_error_301[0], port)
+        request = "GET / HTTP/1.1\r\nHost:%s\r\n\r\n" % url
+        scraper.send(request.encode())
+        received=scraper.recv(4096)
+        print(str(received))
+
+        
+
+
+
+        
+
+scraper.detach()
+----------------------------------------------------------
