@@ -4,6 +4,8 @@ import requests
 from urllib.parse import urlparse
 import html2text
 
+
+'''Receieves all post urls for web page using regex of old.reddit.com/r/followed by any alpha numeric or _ + and then newline joins them'''
 def get_posts(webpage):
        print('The following posts were found\r\n') 
        posts=re.findall("old.reddit.com\/r\/[a-zA-Z0-9_/]+", str(webpage))
@@ -11,6 +13,7 @@ def get_posts(webpage):
       
        return posts
 
+'''Receieves all reddit users  urls for web page using regex of old.reddit.com/r/followed by any alpha numeric + and then newline joins them'''
 def get_users(webpage):
     print('The following users were found\r\n') 
     users=re.findall('reddit.com/user/[a-zA-Z0-9]+', str(webpage))
@@ -18,6 +21,7 @@ def get_users(webpage):
 
     return users
 
+'''Receieves all subredditreddit urls for web page using regex of /r/ followed by any char + and then newline joins them'''
 def get_subreddits(webpage): 
     print("the following subewddits are referenced here\r\n")
     subreddits=re.findall('/r/\w+', str(webpage))
@@ -31,6 +35,7 @@ get_request=html2text.html2text(requests.get(url,headers=headers).text)
 print("The page shows:\r\n")
 print(get_request)
 
+'''loop to constantly ask for input for testing purpose and direction of testing methods'''
 while 1:
 
     option = input("Are you interested in users or posts or subs? ")
