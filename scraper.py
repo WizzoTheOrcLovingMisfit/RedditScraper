@@ -13,6 +13,13 @@ def get_posts(webpage):
       
        return posts
 
+''' returns the first post url for web page using regex of old.reddit.com/r/followed by any alpha numeric or _ +'''
+def get_first_post(webpage):
+    print('the first post of the page is: \r\n')
+    first_post=re.match("old.reddit.com\/r\/[a-zA-Z0-9_/]+", str(webpage))
+
+    return first_post.group(0)
+
 '''Receieves all reddit users  urls for web page using regex of old.reddit.com/r/followed by any alpha numeric + and then newline joins them'''
 def get_users(webpage):
     print('The following users were found\r\n') 
@@ -21,6 +28,8 @@ def get_users(webpage):
 
     return users
 
+
+
 '''Receieves all subredditreddit urls for web page using regex of /r/ followed by any char + and then newline joins them'''
 def get_subreddits(webpage): 
     print("the following subewddits are referenced here\r\n")
@@ -28,6 +37,10 @@ def get_subreddits(webpage):
     subreddits="\n".join(subreddits)
 
     return subreddits
+
+
+
+
 
 url = 'https://old.reddit.com/r/all/'
 headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0'}
@@ -50,7 +63,11 @@ while 1:
 
     elif 'reddit' in option:
         subreddits=get_subreddits(get_request)
-        print(subreddits + '\r\n')
+        print(subreddits + '\r\n') 
+
+    elif 'first'in option: 
+        option = get_first_post(get_request)
+        print(option + '\r\n') 
 
     else:
         break
